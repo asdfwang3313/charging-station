@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>认知充电站</title>
+<meta name="theme-color" content="#F6F4EE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="认知充电站">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="个人专属的学习素材库：口语跟读、销售商务英语、升学考研、认知成长。">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#F6F4EE;
+  --surface:#FFFDF8;
+  --surface-2:#F0ECE2;
+  --ink:#2A2823;
+  --ink2:#6B665C;
+  --ink3:#9A9387;
+  --line:#E5E0D4;
+  --accent:#4F6B57;
+  --accent-2:#3F5747;
+  --accent-soft:#E7EDE7;
+  --gold:#A8792F;
+  --gold-soft:#F4EBD9;
+  --danger:#A25642;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(42,40,35,.04);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+html[data-theme="night"]{
+  --bg:#15171A;
+  --surface:#1D2023;
+  --surface-2:#252A2D;
+  --ink:#E9E6DF;
+  --ink2:#A8A49B;
+  --ink3:#7A766E;
+  --line:#2D3235;
+  --accent:#84AE92;
+  --accent-2:#9CC0A7;
+  --accent-soft:#232E28;
+  --gold:#C9A063;
+  --gold-soft:#2C2822;
+  --danger:#D08066;
+  --shadow:none;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+}
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none;padding:0}
+h1,h2,h3,h4,p{margin:0}
+a{color:var(--accent);text-decoration:none}
+::-webkit-scrollbar{width:0;height:0}
+
+/* ---------- layout ---------- */
+.app{max-width:600px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);position:relative}
+.topbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:calc(10px + var(--safe-t)) 16px 10px;
+  background:var(--bg);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid transparent;
+}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{
+  width:34px;height:34px;border-radius:10px;flex:none;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:600;letter-spacing:.5px;
+  box-shadow:var(--shadow);
+}
+html[data-theme="night"] .brand-mark{color:#14181A}
+.brand h1{font-size:17px;font-weight:600;letter-spacing:.3px;line-height:1.25}
+.brand p{font-size:11px;color:var(--ink3);line-height:1.2;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink2);background:var(--surface);border:1px solid var(--line);
+}
+.icon-btn:active{background:var(--surface-2)}
+main{flex:1;padding-bottom:calc(74px + var(--safe-b))}
+.view{display:none;padding:0 14px 20px}
+.view.active{display:block}
+
+/* ---------- bottom nav ---------- */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--surface);
+  background:color-mix(in srgb,var(--surface) 94%,transparent);
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  border-top:1px solid var(--line);
+  padding-bottom:var(--safe-b);
+  max-width:600px;margin:0 auto;
+}
+.tab{
+  padding:8px 0 7px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:var(--ink3);font-size:11px;letter-spacing:.2px;
+  transition:color .15s;
+}
+.tab svg{width:22px;height:22px;stroke-width:1.6}
+.tab.active{color:var(--accent)}
+html[data-theme="night"] .tab.active{color:var(--accent-2)}
+
+/* ---------- board chips ---------- */
+.board-scroll{
+  display:flex;gap:8px;overflow-x:auto;padding:12px 0 10px;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.board-chip{
+  flex:none;display:flex;align-items:center;gap:7px;
+  padding:9px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);
+  color:var(--ink2);font-size:13.5px;white-space:nowrap;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.board-chip svg{width:16px;height:16px;stroke-width:1.7}
+.board-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="night"] .board-chip.active{color:#14181A}
+.board-chip.active svg{stroke:#fff}
+html[data-theme="night"] .board-chip.active svg{stroke:#14181A}
+
+.board-head{padding:2px 2px 10px}
+.board-head h2{font-size:15px;font-weight:600;letter-spacing:.2px}
+.board-head p{font-size:12.5px;color:var(--ink3);margin-top:3px}
+
+/* ---------- generic controls ---------- */
+.search{
+  width:100%;padding:11px 13px;border-radius:12px;
+  border:1px solid var(--line);background:var(--surface);
+  font-size:16px;outline:none;
+}
+.search::placeholder{color:var(--ink3)}
+.search:focus{border-color:var(--accent)}
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.chip-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip{
+  padding:7px 12px;border-radius:999px;font-size:12.5px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink2);
+  transition:background .15s,color .15s,border-color .15s;
+}
+.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2)}
+.chip.tiny{padding:5px 10px;font-size:11.5px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:44px;padding:0 16px;border-radius:12px;
+  border:1px solid var(--line);background:var(--surface);
+  font-size:14.5px;color:var(--ink);font-weight:500;
+}
+.btn:active{transform:scale(.985)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="night"] .btn.primary{color:#14181A}
+.btn.ghost{background:transparent}
+.btn.block{width:100%}
+.btn.sm{min-height:38px;font-size:13px;padding:0 12px;border-radius:10px}
+.btn.danger{color:var(--danger)}
+.lbl{display:block;font-size:12.5px;color:var(--ink3);margin:14px 0 6px;letter-spacing:.2px}
+.input,.textarea{
+  width:100%;padding:11px 12px;border-radius:11px;
+  border:1px solid var(--line);background:var(--surface);
+  font-size:16px;outline:none;line-height:1.55;
+}
+.input:focus,.textarea:focus{border-color:var(--accent)}
+.textarea{resize:vertical;min-height:76px}
+.panel{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.panel-title{font-size:14px;font-weight:600;letter-spacing:.2px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.panel-title .count{font-size:12px;color:var(--ink3);font-weight:400}
+.hint{font-size:12px;color:var(--ink3);margin-top:8px;line-height:1.5}
+.row-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.row-btns .btn{flex:1;min-width:96px}
+.add-row{display:flex;gap:8px;margin-top:10px}
+.add-row .input{flex:1}
+.add-row .btn{flex:none}
+.mini-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.list-empty{padding:26px 10px;text-align:center;color:var(--ink3);font-size:13px;line-height:1.7}
+
+/* ---------- cards ---------- */
+.card-list{display:flex;flex-direction:column;gap:10px}
+.card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:13px 13px 11px;box-shadow:var(--shadow);
+}
+.card-top{display:flex;align-items:flex-start;gap:8px}
+.card-title{flex:1;font-size:14.5px;font-weight:600;line-height:1.45;letter-spacing:.1px;word-break:break-word}
+.badge{
+  flex:none;font-size:10.5px;padding:3px 7px;border-radius:6px;letter-spacing:.3px;
+  background:var(--surface-2);color:var(--ink2);border:1px solid var(--line);
+}
+.badge.p-bili{color:#7E9BB8;border-color:#D3DFE9;background:#F1F6FA}
+.badge.p-douyin{color:#8E7F94;border-color:#E0D8E4;background:#F7F2F8}
+.badge.p-local{color:var(--accent-2);border-color:var(--accent);background:var(--accent-soft)}
+html[data-theme="night"] .badge.p-bili{color:#9DBBD8;border-color:#2E3A44;background:#1E262C}
+html[data-theme="night"] .badge.p-douyin{color:#B9A6C0;border-color:#3A303F;background:#241F27}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{
+  font-size:11px;padding:3px 8px;border-radius:6px;
+  background:var(--accent-soft);color:var(--accent-2);
+}
+html[data-theme="night"] .tag{color:var(--accent-2)}
+.card-meta{font-size:11.5px;color:var(--ink3);margin-top:9px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.card-meta .dot{opacity:.5}
+.card-meta .done{color:var(--accent-2)}
+.card-actions{display:flex;gap:6px;margin-top:11px}
+.act{
+  flex:1;min-height:36px;border-radius:9px;border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink2);font-size:12px;white-space:nowrap;
+  display:flex;align-items:center;justify-content:center;gap:3px;
+}
+.act:active{background:var(--line)}
+.act.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-2)}
+.act.wide{flex:1.4}
+.notes{margin-top:10px;font-size:13px;color:var(--ink2);line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.notes.clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.note-label{font-size:11px;color:var(--ink3);letter-spacing:.4px;margin-bottom:3px}
+.notes-wrap{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.more-toggle{font-size:11.5px;color:var(--accent);margin-top:6px}
+.player{margin-top:10px;border-radius:11px;overflow:hidden;border:1px solid var(--line);background:#000;position:relative}
+.player iframe,.player video{display:block;width:100%;aspect-ratio:16/9;border:0;background:#000}
+.player .p-note{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:8px 10px;background:var(--surface);border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--ink3);
+}
+.player .p-note a{color:var(--ink2);text-decoration:underline;text-underline-offset:2px}
+.link-line{font-size:11.5px;color:var(--ink3);margin-top:8px;word-break:break-all;line-height:1.5}
+
+/* ---------- idea result ---------- */
+.idea-result{margin-top:4px}
+.idea-section{margin-bottom:14px}
+.idea-section > h3{
+  font-size:13px;font-weight:600;letter-spacing:.5px;color:var(--accent-2);
+  display:flex;align-items:center;gap:7px;margin-bottom:9px;
+}
+.idea-section > h3::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--accent)}
+html[data-theme="night"] .idea-section > h3{color:var(--accent-2)}
+.idea-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px;margin-bottom:8px;
+}
+.idea-item .it{font-size:14px;font-weight:600;line-height:1.45}
+.idea-item .id{font-size:13px;color:var(--ink2);margin-top:5px;line-height:1.65}
+.idea-item .itools{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.idea-item .itools .chip{min-height:32px;display:inline-flex;align-items:center;padding:6px 12px;font-size:12px}
+.kw-list{display:flex;flex-wrap:wrap;gap:7px}
+.kw{
+  font-size:12.5px;padding:7px 11px;border-radius:8px;
+  border:1px dashed var(--line);background:var(--surface);color:var(--ink2);
+}
+.kw:active{background:var(--accent-soft);border-color:var(--accent)}
+.claim{
+  background:var(--gold-soft);border:1px solid var(--line);
+  border-radius:12px;padding:13px;font-size:14px;line-height:1.7;color:var(--ink);
+}
+.claim b{color:var(--gold);font-weight:600}
+html[data-theme="night"] .claim{color:var(--ink)}
+
+/* ---------- quotes ---------- */
+.quote-grid{display:flex;flex-direction:column;gap:10px}
+.qcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px;box-shadow:var(--shadow);position:relative;
+}
+.qcard .en{font-size:14.5px;line-height:1.65;letter-spacing:.1px;font-style:italic;color:var(--ink)}
+.qcard .zh{font-size:13.5px;line-height:1.7;margin-top:7px;color:var(--ink2)}
+.qcard .src{font-size:11.5px;color:var(--ink3);margin-top:8px;letter-spacing:.2px}
+.qcard .qtools{display:flex;gap:7px;margin-top:11px}
+.qcard .qtools .act{min-height:34px;font-size:12px}
+.qcard .fav-mark{position:absolute;top:12px;right:12px;color:var(--gold);font-size:14px}
+
+/* ---------- stats ---------- */
+.stat-card{
+  background:linear-gradient(160deg,var(--accent-soft),var(--surface) 70%);
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:15px;margin:12px 0 12px;
+}
+html[data-theme="night"] .stat-card{background:linear-gradient(160deg,#1F2723,var(--surface) 70%)}
+.stat-date{font-size:13px;color:var(--ink2);letter-spacing:.3px}
+.stat-date b{font-weight:600;color:var(--ink)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:13px;text-align:center}
+.stat-grid .num{font-size:19px;font-weight:600;letter-spacing:.3px;font-variant-numeric:tabular-nums}
+.stat-grid .cap{font-size:10.5px;color:var(--ink3);margin-top:2px;letter-spacing:.2px}
+
+.goal{
+  display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);
+}
+.goal:last-child{border-bottom:none}
+.goal .box{
+  width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);flex:none;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;color:transparent;font-size:12px;
+}
+.goal.done .box{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="night"] .goal.done .box{color:#14181A}
+.goal .txt{flex:1;font-size:14px;line-height:1.55;word-break:break-word}
+.goal.done .txt{color:var(--ink3);text-decoration:line-through}
+.goal .del{color:var(--ink3);font-size:16px;padding:0 4px;line-height:1}
+.review-block{margin-top:12px}
+.review-block .q{font-size:12.5px;color:var(--ink3);margin-bottom:6px}
+.mini-card{
+  display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:10px;
+  background:var(--surface-2);font-size:13px;color:var(--ink2);
+}
+.mini-card .mt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- sheet ---------- */
+.backdrop{
+  position:fixed;inset:0;background:rgba(30,28,24,.34);z-index:50;
+  opacity:0;pointer-events:none;transition:opacity .18s;
+}
+.backdrop.show{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  max-width:600px;margin:0 auto;
+  background:var(--surface);border-radius:20px 20px 0 0;
+  border-top:1px solid var(--line);
+  transform:translateY(102%);transition:transform .22s cubic-bezier(.3,.8,.4,1);
+  max-height:90vh;overflow-y:auto;
+  padding:8px 16px calc(18px + var(--safe-b));
+  -webkit-overflow-scrolling:touch;
+}
+.sheet.show{transform:translateY(0)}
+.sheet-grip{width:38px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 10px}
+.sheet h3{font-size:15.5px;font-weight:600;letter-spacing:.2px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.sheet-close{color:var(--ink3);font-size:13px;padding:6px}
+.sheet-actions{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.sheet-actions .btn{justify-content:space-between;padding:0 14px}
+.sheet-actions .btn .sub{font-size:11.5px;color:var(--ink3);font-weight:400}
+.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.time-grid .btn{min-height:52px;flex-direction:column;gap:0;font-size:16px;font-variant-numeric:tabular-nums}
+.time-grid .btn span{font-size:10.5px;color:var(--ink3);font-weight:400}
+.preset-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.sheet-foot{position:sticky;bottom:0;background:var(--surface);padding:10px 0 2px;margin-top:14px}
+.steps{font-size:13px;color:var(--ink2);line-height:1.85}
+.steps b{color:var(--ink);font-weight:600}
+.steps ol{padding-left:18px;margin:6px 0}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.toast{
+  position:fixed;left:50%;bottom:calc(96px + var(--safe-b));transform:translate(-50%,10px);
+  background:rgba(38,40,38,.93);color:#fff;font-size:13px;
+  padding:9px 16px;border-radius:10px;z-index:80;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;white-space:nowrap;max-width:86vw;overflow:hidden;text-overflow:ellipsis;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (min-width:601px){
+  .app{border-left:1px solid var(--line);border-right:1px solid var(--line);min-height:100vh}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar" id="topbar">
+    <div class="brand">
+      <span class="brand-mark">充</span>
+      <div>
+        <h1>认知充电站</h1>
+        <p id="brandSub">只放我自己挑的东西</p>
+      </div>
+    </div>
+    <button class="icon-btn" id="btnSettings" aria-label="设置">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 0 0 .32 1.77l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.6 1.6 0 0 0-1.77-.32 1.6 1.6 0 0 0-1 1.47V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.47 1.6 1.6 0 0 0-1.77.32l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.6 1.6 0 0 0 .32-1.77 1.6 1.6 0 0 0-1.47-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.47-1 1.6 1.6 0 0 0-.32-1.77l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.6 1.6 0 0 0 1.77.32H9a1.6 1.6 0 0 0 1-1.47V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.47 1.6 1.6 0 0 0 1.77-.32l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.6 1.6 0 0 0-.32 1.77V9a1.6 1.6 0 0 0 1.47 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>
+      </svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- ============ 素材 ============ -->
+    <section class="view active" id="view-material">
+      <div class="board-scroll" id="boardTabs"></div>
+      <div class="board-head">
+        <h2 id="boardTitle">英语口语专区</h2>
+        <p id="boardSub">跟读素材 · 美剧片段 · 纠音 · 影子跟练</p>
+      </div>
+      <div class="toolbar">
+        <input class="search" id="cardSearch" placeholder="搜标题 / 标签 / 备注 / 台词" autocomplete="off">
+        <button class="btn sm primary" id="btnAddCard" style="flex:none">＋ 添加</button>
+      </div>
+      <div class="chip-row" id="tagFilter" style="margin:0 0 10px"></div>
+      <div class="card-list" id="cardList"></div>
+      <div class="list-empty" id="cardEmpty" hidden>
+        还没有素材。<br>点右上角「＋ 添加」，粘贴 B 站 / 抖音链接就能内嵌播放。
+      </div>
+    </section>
+
+    <!-- ============ 灵感库 ============ -->
+    <section class="view" id="view-idea">
+      <div class="panel" style="margin-top:12px">
+        <div class="panel-title">主题搜索 / 灵感库</div>
+        <p class="hint" style="margin-top:6px">输入一个核心问题，我给你拆角度、找素材方向、生成可收藏的搜索词和短句。</p>
+        <textarea class="textarea" id="ideaInput" rows="3" style="margin-top:10px" placeholder="例：英语口语如何撬动大一新生，点燃对未来的希望"></textarea>
+        <div class="chip-row" id="ideaFocus"></div>
+        <div class="row-btns">
+          <button class="btn primary" id="btnGen">生成灵感</button>
+          <button class="btn" id="btnGenMore">换一批</button>
+          <button class="btn ghost" id="btnIdeaSave">收藏</button>
+        </div>
+      </div>
+      <div id="ideaResult" class="idea-result"></div>
+      <div class="panel">
+        <div class="panel-title">灵感收藏 <span class="count" id="ideaCount"></span></div>
+        <div class="mini-list" id="ideaHistory"></div>
+      </div>
+    </section>
+
+    <!-- ============ 摘抄 ============ -->
+    <section class="view" id="view-quote">
+      <div class="toolbar" style="margin-top:12px">
+        <input class="search" id="quoteSearch" placeholder="搜短句 / 来源" autocomplete="off">
+        <button class="chip" id="btnQuoteFav" style="flex:none">★ 收藏</button>
+        <button class="btn sm primary" id="btnAddQuote" style="flex:none">＋ 摘抄</button>
+      </div>
+      <div class="chip-row" id="quoteTags" style="margin:0 0 12px"></div>
+      <div class="quote-grid" id="quoteList"></div>
+      <div class="list-empty" id="quoteEmpty" hidden>这里还空着。</div>
+    </section>
+
+    <!-- ============ 今天 ============ -->
+    <section class="view" id="view-today">
+      <div class="stat-card">
+        <div class="stat-date" id="todayDate"></div>
+        <div class="stat-grid">
+          <div><div class="num" id="stMinutes">0</div><div class="cap">今日跟读(分)</div></div>
+          <div><div class="num" id="stStreak">0</div><div class="cap">连续天数</div></div>
+          <div><div class="num" id="stGoals">0/0</div><div class="cap">今日目标</div></div>
+          <div><div class="num" id="stCards">0</div><div class="cap">素材总数</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">今日目标打卡</div>
+        <div id="goalList" style="margin-top:6px"></div>
+        <div class="add-row">
+          <input class="input" id="goalInput" placeholder="今天要完成的一件小事" autocomplete="off">
+          <button class="btn sm primary" id="btnAddGoal">添加</button>
+        </div>
+        <div class="chip-row" id="goalQuick"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">每日复盘</div>
+        <div class="review-block">
+          <div class="q">今天做到了什么（具体一点）</div>
+          <textarea class="textarea" id="rv1" rows="2" placeholder="例：跟读了 3 段美剧，把 think 的咬舌改过来了一点"></textarea>
+        </div>
+        <div class="review-block">
+          <div class="q">卡在哪里 / 明天要避开什么</div>
+          <textarea class="textarea" id="rv2" rows="2" placeholder="例：晚上 10 点后就不想开口了，以后把跟读放早上"></textarea>
+        </div>
+        <div class="review-block">
+          <div class="q">明天第一件事</div>
+          <textarea class="textarea" id="rv3" rows="2" placeholder="例：早上 8 点，复看昨天那段 60 秒"></textarea>
+        </div>
+        <div class="hint" id="rvHint">输入即自动保存</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">今日练过的素材</div>
+        <div class="mini-list" id="todayCards"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar">
+    <button class="tab active" data-view="material">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 4l8 3.5-8 3.5-8-3.5Z"/><path d="m4 12 8 3.5L20 12"/><path d="m4 16.5 8 3.5 8-3.5"/></svg>
+      <span>素材</span>
+    </button>
+    <button class="tab" data-view="idea">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6V16h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3Z"/></svg>
+      <span>灵感</span>
+    </button>
+    <button class="tab" data-view="quote">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6C7 7.2 5.5 9.4 5.5 12v6h5v-6H8c0-2 .6-3.6 2.4-4.6L9.5 6Z"/><path d="M18.5 6C16 7.2 14.5 9.4 14.5 12v6h5v-6H17c0-2 .6-3.6 2.4-4.6L18.5 6Z"/></svg>
+      <span>摘抄</span>
+    </button>
+    <button class="tab" data-view="today">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="m9 15 2 2 4-4"/></svg>
+      <span>今天</span>
+    </button>
+  </nav>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+
+<!-- 卡片表单 -->
+<div class="sheet" id="sheetCard" role="dialog" aria-modal="true">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3 id="cardSheetTitle">添加素材</h3>
+    <button class="sheet-close" data-close>关闭</button>
+  </div>
+  <div class="row-btns" style="margin-top:8px">
+    <button class="btn sm" id="btnFillDemo" type="button">填入示例链接</button>
+    <button class="btn sm ghost" id="btnPaste" type="button">从剪贴板粘贴</button>
+  </div>
+  <label class="lbl">标题</label>
+  <input class="input" id="fTitle" placeholder="例：老友记 S01E01 咖啡店开场（跟读）">
+  <label class="lbl">视频链接（B 站 / 抖音 / 直链 mp4）</label>
+  <input class="input" id="fUrl" placeholder="粘贴 https://www.bilibili.com/video/BV... 或抖音分享链接" autocomplete="off">
+  <div class="hint" id="urlHint"></div>
+  <label class="lbl">板块</label>
+  <div class="chip-row" id="fBoards" style="margin-top:0"></div>
+  <label class="lbl">分类</label>
+  <div class="chip-row" id="fPresets" style="margin-top:0"></div>
+  <label class="lbl">标签（自定义，逗号或空格分隔）</label>
+  <input class="input" id="fTags" placeholder="例：跟读, 连读, 日常口语">
+  <label class="lbl">备注</label>
+  <textarea class="textarea" id="fNote" rows="2" placeholder="为什么存它 / 使用方法"></textarea>
+  <label class="lbl">台词 / 摘抄笔记</label>
+  <textarea class="textarea" id="fScript" rows="3" placeholder="把台词、金句、生词粘贴进来"></textarea>
+  <label class="lbl">内嵌地址（可选，自动识别失败时手填）</label>
+  <input class="input" id="fEmbed" placeholder="留空即自动识别" autocomplete="off">
+  <div class="row-btns sheet-foot">
+    <button class="btn primary" id="btnSaveCard">保存</button>
+    <button class="btn ghost" id="btnCancelCard">取消</button>
+  </div>
+</div>
+
+<!-- 记录时长 -->
+<div class="sheet" id="sheetTime" role="dialog" aria-modal="true">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3>记录跟读时长</h3>
+    <button class="sheet-close" data-close>关闭</button>
+  </div>
+  <p class="hint" id="timeCardTitle" style="margin-top:2px"></p>
+  <div class="time-grid">
+    <button class="btn" data-min="5">5<span>分钟</span></button>
+    <button class="btn" data-min="10">10<span>分钟</span></button>
+    <button class="btn" data-min="15">15<span>分钟</span></button>
+    <button class="btn" data-min="30">30<span>分钟</span></button>
+  </div>
+  <div class="add-row">
+    <input class="input" id="customMin" inputmode="numeric" placeholder="自定义分钟数">
+    <button class="btn sm" id="btnCustomMin">记录</button>
+  </div>
+</div>
+
+<!-- 通用动作面板 -->
+<div class="sheet" id="sheetGeneric" role="dialog" aria-modal="true">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3 id="genericTitle">操作</h3>
+    <button class="sheet-close" data-close>关闭</button>
+  </div>
+  <div class="sheet-actions" id="genericActions"></div>
+</div>
+
+<!-- 摘抄表单 -->
+<div class="sheet" id="sheetQuote" role="dialog" aria-modal="true">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3 id="quoteSheetTitle">添加摘抄</h3>
+    <button class="sheet-close" data-close>关闭</button>
+  </div>
+  <label class="lbl">英文原句（可留空）</label>
+  <textarea class="textarea" id="qEn" rows="2"></textarea>
+  <label class="lbl">中文</label>
+  <textarea class="textarea" id="qZh" rows="2"></textarea>
+  <label class="lbl">出处 / 作者</label>
+  <input class="input" id="qSrc" placeholder="例：Steve Jobs, 2005 Stanford">
+  <label class="lbl">标签</label>
+  <input class="input" id="qTag" placeholder="励志 / 口语 / 商务 / 考研 / 认知">
+  <div class="row-btns sheet-foot">
+    <button class="btn primary" id="btnSaveQuote">保存</button>
+    <button class="btn ghost" data-close>取消</button>
+  </div>
+</div>
+
+<!-- 设置 -->
+<div class="sheet" id="sheetSettings" role="dialog" aria-modal="true">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head">
+    <h3>设置与备份</h3>
+    <button class="sheet-close" data-close>关闭</button>
+  </div>
+  <div class="sheet-actions" style="margin-top:10px">
+    <button class="btn" id="btnTheme"><span>夜间模式</span><span class="sub" id="themeState">关</span></button>
+    <button class="btn" id="btnExport"><span>导出备份</span><span class="sub">JSON 文件</span></button>
+    <button class="btn" id="btnImport"><span>导入备份</span><span class="sub">选 JSON 恢复</span></button>
+    <button class="btn danger" id="btnClear"><span>清空全部数据</span><span class="sub">不可恢复</span></button>
+  </div>
+  <div class="divider"></div>
+  <div class="panel-title">加到手机桌面</div>
+  <div class="steps">
+    <b>iPhone（Safari）</b>
+    <ol>
+      <li>用 Safari 打开这个网址</li>
+      <li>点底部「分享」按钮</li>
+      <li>选择「添加到主屏幕」→ 添加</li>
+    </ol>
+    <b>安卓（Chrome / Edge / 自带浏览器）</b>
+    <ol>
+      <li>用浏览器打开网址</li>
+      <li>点右上角「⋮」菜单</li>
+      <li>选择「添加到桌面 / 安装应用」</li>
+    </ol>
+    打开后是全屏无地址栏的，跟 APP 一样。数据存在这台手机的浏览器里。
+  </div>
+  <div class="divider"></div>
+  <div class="panel-title">说明</div>
+  <div class="steps" style="margin-top:6px">
+    · 所有素材由你手动添加，没有推荐流、没有娱乐内容。<br>
+    · B 站链接可直接内嵌播放；抖音官方限制跨站内嵌，部分视频可能需要在卡片的「⋯」里复制链接查看。<br>
+    · 数据保存在浏览器本地（localStorage）。换手机 / 清缓存前请先「导出备份」。<br>
+    · 建议每周导出一次备份，存到网盘。
+  </div>
+  <input type="file" id="fileImport" accept="application/json,.json" hidden>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+'use strict';
+/* ============ 0. 工具 ============ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.prototype.slice.call(r.querySelectorAll(s));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const pad2 = n => (n < 10 ? '0' + n : '' + n);
+const dateKey = (d) => { d = d || new Date(); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); };
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1700);
+}
+
+/* ============ 1. 板块配置 ============ */
+const ICON = {
+  speaking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H3v-4a2 2 0 0 1 1-2Z"/><path d="M20 14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v-4a2 2 0 0 1 1-2Z"/></svg>',
+  business: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg>',
+  exam: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h5v16H6a2 2 0 0 0-2 2v-16Z"/><path d="M20 5.5a2 2 0 0 0-2-2h-5v16h5a2 2 0 0 1 2 2v-16Z"/></svg>',
+  life: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-5 3-8 8-8 0 5-3 8-8 8Z"/><path d="M12 21c0-5-3-8-8-8 0 5 3 8 8 8Z"/><path d="M12 21V11"/><path d="M12 11a5 5 0 1 0-5-5c0 2.8 2.2 5 5 5Z"/></svg>'
+};
+const BOARDS = [
+  { id: 'speaking', name: '英语口语', short: '口语', sub: '跟读素材 · 美剧片段 · 纠音 · 影子跟练',
+    presets: ['跟读素材', '美剧片段', '纠音', '地道表达', '影子跟练'] },
+  { id: 'business', name: '销售 & 商务英语', short: '商务', sub: '话术 · 外贸 · 谈判 · 客户沟通 · 演讲',
+    presets: ['销售沟通话术', '外贸英语', '商务谈判', '客户沟通', '演讲表达', '说服力', '领导力'] },
+  { id: 'exam', name: '升学考研', short: '考研', sub: '规划 · 考研英语 · 择校 · 复试 · 读研认知',
+    presets: ['考研规划', '考研英语', '择校', '备考节奏', '学长学姐经验', '复试口语', '读研认知'] },
+  { id: 'life', name: '人生认知 & 职业成长', short: '认知', sub: '大学规划 · 职场 · 自律 · 认知升级 · 长期主义',
+    presets: ['大学规划', '职场前景', '个人成长', '自律', '认知升级', '励志演讲', '长期主义', '大学四年路线'] }
+];
+const boardById = id => BOARDS.find(b => b.id === id) || BOARDS[0];
+
+/* ============ 2. 数据 ============ */
+const LS_KEY = 'cc_station_v1';
+const DEFAULT_QUOTES = [
+  { en: 'Stay hungry, stay foolish.', zh: '求知若饥，虚心若愚。', src: 'Steve Jobs, 2005 斯坦福演讲', tag: '励志' },
+  { en: 'The only way to do great work is to love what you do.', zh: '做出伟大工作的唯一方式，是热爱你所做的事。', src: 'Steve Jobs', tag: '励志' },
+  { en: 'It always seems impossible until it is done.', zh: '在做成之前，一切都像是不可能的。', src: 'Nelson Mandela', tag: '励志' },
+  { en: 'Whether you think you can or you think you cannot, you are right.', zh: '你认为自己能，或认为你不能，你都是对的。', src: 'Henry Ford', tag: '认知' },
+  { en: 'You do not rise to the level of your goals. You fall to the level of your systems.', zh: '你不会升到目标的高度，只会掉到系统的水平。', src: 'James Clear《原子习惯》', tag: '认知' },
+  { en: 'Discipline equals freedom.', zh: '自律即自由。', src: 'Jocko Willink', tag: '认知' },
+  { en: 'Comparison is the thief of joy.', zh: '比较是偷走快乐的贼。', src: '常引 Theodore Roosevelt', tag: '认知' },
+  { en: 'Success is the sum of small efforts repeated day in and day out.', zh: '成功是日复一日的小努力累积而成。', src: 'Robert Collier', tag: '励志' },
+  { en: 'Fall seven times, stand up eight.', zh: '跌倒七次，第八次也要站起来。', src: '日本谚语', tag: '励志' },
+  { en: 'We are what we repeatedly do. Excellence, then, is not an act, but a habit.', zh: '我们由反复做的事构成。卓越不是行为，而是习惯。', src: 'Will Durant', tag: '认知' },
+  { en: 'A goal without a plan is just a wish.', zh: '没有计划的目标只是一个愿望。', src: 'Antoine de Saint-Exupéry', tag: '励志' },
+  { en: 'The limits of my language mean the limits of my world.', zh: '语言的边界，就是世界的边界。', src: 'Ludwig Wittgenstein', tag: '口语' },
+  { en: 'Speak clearly, if you speak at all; carve every word before you let it fall.', zh: '若要开口，就说清楚；每个词都雕刻过再放手。', src: 'Oliver Wendell Holmes', tag: '口语' },
+  { en: 'You do not have to be great to start, but you have to start to be great.', zh: '不必一开始就很厉害，但必须开始才会厉害。', src: 'Zig Ziglar', tag: '口语' },
+  { en: 'Nothing is impossible. The word itself says "I am possible"!', zh: '没有不可能，这个词本身就在说「我可能」。', src: 'Audrey Hepburn', tag: '励志' },
+  { en: 'Practice makes progress, not perfect.', zh: '练习带来进步，而不是完美。', src: '口语练习提醒', tag: '口语' },
+  { en: 'People do not buy what you do; they buy why you do it.', zh: '人们买的不是你在做什么，而是你为什么做。', src: 'Simon Sinek', tag: '商务' },
+  { en: 'Seek first to understand, then to be understood.', zh: '先求理解别人，再求被理解。', src: 'Stephen Covey《高效能人士的七个习惯》', tag: '商务' },
+  { en: 'You can have everything you want in life if you help enough other people get what they want.', zh: '帮足够多的人得到他们想要的，你就会得到你想要的。', src: 'Zig Ziglar', tag: '商务' },
+  { en: 'If you want to go fast, go alone. If you want to go far, go together.', zh: '想走得快就一个人走，想走得远就一起走。', src: '非洲谚语', tag: '商务' },
+  { en: 'Courage is not the absence of fear, but the triumph over it.', zh: '勇气不是没有恐惧，而是战胜恐惧。', src: 'Nelson Mandela', tag: '励志' },
+  { en: 'The best time to plant a tree was twenty years ago. The second best time is now.', zh: '种树最好的时间是二十年前，其次是现在。', src: '谚语', tag: '考研' },
+  { en: '', zh: '不积跬步，无以至千里；不积小流，无以成江海。', src: '荀子《劝学》', tag: '考研' },
+  { en: '', zh: '道虽迩，不行不至；事虽小，不为不成。', src: '《荀子·修身》', tag: '考研' },
+  { en: '', zh: '靡不有初，鲜克有终。', src: '《诗经·大雅》', tag: '考研' },
+  { en: '', zh: '日拱一卒，功不唐捐。', src: '胡适（常引）', tag: '考研' },
+  { en: '', zh: '君子求诸己，小人求诸人。', src: '《论语·卫灵公》', tag: '认知' },
+  { en: '', zh: '为学日益，为道日损。', src: '《老子》第四十八章', tag: '认知' },
+  { en: '', zh: '凡是过往，皆为序章。', src: '莎士比亚《暴风雨》', tag: '认知' },
+  { en: '', zh: '知之为知之，不知为不知，是知也。', src: '《论语·为政》', tag: '认知' }
+];
+const defaultQuotes = () => DEFAULT_QUOTES.map(q => ({ id: uid(), en: q.en, zh: q.zh, src: q.src, tag: q.tag, fav: false }));
+
+function blankState() {
+  return { version: 1, theme: 'light', cards: [], goals: {}, reviews: {}, quotes: defaultQuotes(), ideas: [], ui: { board: 'speaking' } };
+}
+let state = blankState();
+
+function load() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (!d || typeof d !== 'object') return;
+    state = Object.assign(blankState(), d);
+    state.cards = Array.isArray(d.cards) ? d.cards : [];
+    state.quotes = Array.isArray(d.quotes) && d.quotes.length ? d.quotes : defaultQuotes();
+    state.goals = d.goals && typeof d.goals === 'object' ? d.goals : {};
+    state.reviews = d.reviews && typeof d.reviews === 'object' ? d.reviews : {};
+    state.ideas = Array.isArray(d.ideas) ? d.ideas : [];
+    state.ui = Object.assign({ board: 'speaking' }, d.ui || {});
+    state.cards.forEach(c => { c.tags = Array.isArray(c.tags) ? c.tags : []; c.checks = Array.isArray(c.checks) ? c.checks : []; c.minutes = c.minutes && typeof c.minutes === 'object' ? c.minutes : {}; });
+  } catch (e) { console.warn('读取本地数据失败', e); }
+}
+function save() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+  catch (e) { toast('保存失败：本地存储空间可能已满'); console.warn(e); }
+}
+
+/* ============ 3. 视频链接解析 ============ */
+function pickUrl(text) {
+  const t = String(text || '').trim();
+  const m = t.match(/https?:\/\/[^\s，,。；;、"'）)】]+/);
+  return m ? m[0] : t;
+}
+function parseVideo(url) {
+  const raw = pickUrl(url);
+  if (!raw) return { platform: 'none', type: 'none', embed: '', warn: '' };
+  if (/\.(mp4|webm|ogv|m4v|mov)(\?|#|$)/i.test(raw)) return { platform: 'local', type: 'video', embed: raw, warn: '' };
+
+  const bv = raw.match(/(BV[0-9A-Za-z]{10})/);
+  if (bv) {
+    const p = (raw.match(/[?&]p=(\d+)/) || [])[1] || '1';
+    return { platform: 'bili', type: 'iframe', embed: 'https://player.bilibili.com/player.html?bvid=' + bv[1] + '&page=' + p + '&high_quality=1&danmaku=0&autoplay=0', warn: '' };
+  }
+  const av = raw.match(/\/av(\d+)/i);
+  if (av) return { platform: 'bili', type: 'iframe', embed: 'https://player.bilibili.com/player.html?aid=' + av[1] + '&page=1&high_quality=1&danmaku=0&autoplay=0', warn: '' };
+  if (/b23\.tv/i.test(raw)) return { platform: 'bili', type: 'none', embed: '', warn: 'b23.tv 短链无法直接解析，请在 B 站分享里复制「完整链接」或直接填 BV 号。' };
+
+  if (/douyin\.com|iesdouyin/i.test(raw)) {
+    const id = (raw.match(/(?:video|note|share\/video)\/(\d{15,25})/) || [])[1] || (raw.match(/[?&]modal_id=(\d{15,25})/) || [])[1] || (raw.match(/(\d{19})/) || [])[1];
+    if (id) return { platform: 'douyin', type: 'iframe', embed: 'https://open.douyin.com/player/video?vid=' + id + '&autoplay=0', warn: '抖音对跨站播放限制很严：若这里是黑屏或报错，说明官方不允许内嵌，可换成 B 站同类素材，或粘贴该视频的直链 mp4。' };
+    return { platform: 'douyin', type: 'none', embed: '', warn: '这是抖音分享短链，无法解析。请在抖音里点「分享 → 复制链接」后，取 douyin.com/video/数字 那段完整链接。' };
+  }
+  if (/youtu\.be|youtube\.com/i.test(raw)) {
+    const yid = (raw.match(/[?&]v=([\w-]{6,})/) || raw.match(/youtu\.be\/([\w-]{6,})/) || raw.match(/shorts\/([\w-]{6,})/) || [])[1];
+    if (yid) return { platform: 'other', type: 'iframe', embed: 'https://www.youtube-nocookie.com/embed/' + yid, warn: '' };
+  }
+  if (/\s/.test(raw)) return { platform: 'other', type: 'none', embed: '', warn: '没识别出视频地址，只填链接本身即可。' };
+  return { platform: 'other', type: 'iframe', embed: raw, warn: '未识别的站点，将以网页内嵌方式打开，可能被对方站点拦截。' };
+}
+const PLATFORM_NAME = { bili: 'B 站', douyin: '抖音', local: '本地视频', other: '网页', none: '待搜集' };
+
+/* ============ 4. 导航 ============ */
+let currentView = 'material';
+function setView(v) {
+  currentView = v;
+  $$('.view').forEach(s => s.classList.toggle('active', s.id === 'view-' + v));
+  $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  if (v === 'today') renderToday();
+  if (v === 'quote') renderQuotes();
+  if (v === 'idea') renderIdeaHistory();
+}
+
+/* ============ 5. 素材板块 ============ */
+let filterTag = '';
+let searchQ = '';
+function cardTotalMin(c) { return Object.keys(c.minutes || {}).reduce((a, k) => a + (Number(c.minutes[k]) || 0), 0); }
+function cardTodayMin(c) { return Number((c.minutes || {})[dateKey()]) || 0; }
+function isCheckedToday(c) { return (c.checks || []).indexOf(dateKey()) > -1; }
+
+function renderBoardTabs() {
+  const b = state.ui.board;
+  $('#boardTabs').innerHTML = BOARDS.map(bd =>
+    '<button class="board-chip' + (bd.id === b ? ' active' : '') + '" data-board="' + bd.id + '">' + ICON[bd.id] + '<span>' + esc(bd.short) + '</span></button>'
+  ).join('');
+  const bd = boardById(b);
+  const list = state.cards.filter(c => c.board === bd.id);
+  $('#boardTitle').textContent = bd.name + '专区';
+  $('#boardSub').textContent = bd.sub + ' · ' + list.length + ' 条素材';
+}
+
+function renderTagFilter() {
+  const bd = boardById(state.ui.board);
+  const list = state.cards.filter(c => c.board === bd.id);
+  const counts = {};
+  list.forEach(c => (c.tags || []).forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+  const tags = Object.keys(counts).sort((a, b) => counts[b] - counts[a]).slice(0, 10);
+  if (!tags.length) { $('#tagFilter').innerHTML = ''; return; }
+  $('#tagFilter').innerHTML = ['<button class="chip tiny' + (filterTag === '' ? ' active' : '') + '" data-tag="">全部</button>']
+    .concat(tags.map(t => '<button class="chip tiny' + (filterTag === t ? ' active' : '') + '" data-tag="' + esc(t) + '">' + esc(t) + ' ' + counts[t] + '</button>'))
+    .join('');
+}
+
+function cardHTML(c) {
+  const bd = boardById(c.board);
+  const p = c.platform || 'none';
+  const pn = c.type === 'none' || !c.embed ? '待搜集' : (PLATFORM_NAME[p] || '网页');
+  const total = cardTotalMin(c), tmin = cardTodayMin(c), checks = (c.checks || []).length;
+  const checked = isCheckedToday(c);
+  const tags = (c.tags || []).filter(Boolean);
+  let html = '<article class="card" data-id="' + c.id + '">';
+  html += '<div class="card-top"><div class="card-title">' + esc(c.title || '未命名素材') + '</div><span class="badge ' + (p === 'bili' ? 'p-bili' : p === 'douyin' ? 'p-douyin' : p === 'local' ? 'p-local' : '') + '">' + esc(pn) + '</span></div>';
+  if (tags.length) html += '<div class="card-tags">' + tags.map(t => '<span class="tag">#' + esc(t) + '</span>').join('') + '</div>';
+  html += '<div class="card-meta"><span>累计 ' + total + ' 分钟</span><span class="dot">·</span><span>打卡 ' + checks + ' 次</span>' +
+    (tmin ? '<span class="done">今日 +' + tmin + ' 分</span>' : '') + '</div>';
+  const hasEmbed = c.embed && c.type !== 'none';
+  html += '<div class="card-actions">';
+  html += hasEmbed ? '<button class="act wide" data-act="play">▶ 播放</button>' : '<button class="act wide" data-act="needurl">＋ 补链接</button>';
+  html += '<button class="act' + (checked ? ' on' : '') + '" data-act="check">' + (checked ? '已打卡' : '打卡') + '</button>';
+  html += '<button class="act" data-act="time">记时长</button>';
+  html += '<button class="act" data-act="more" style="flex:.6">⋯</button>';
+  html += '</div>';
+  if (c.note) html += '<div class="notes-wrap"><div class="note-label">备注</div><div class="notes clamp">' + esc(c.note) + '</div></div>';
+  if (c.script) html += '<div class="notes-wrap"><div class="note-label">台词 / 摘抄</div><div class="notes clamp">' + esc(c.script) + '</div></div>';
+  if ((c.note || c.script) && ((c.note || '').length + (c.script || '').length > 90)) html += '<div class="more-toggle" data-act="expand">展开全部</div>';
+  if (c.url && !hasEmbed) html += '<div class="link-line">链接：' + esc(c.url) + '</div>';
+  html += '<div class="player-slot"></div>';
+  html += '</article>';
+  return html;
+}
+
+function renderCards() {
+  const bd = boardById(state.ui.board);
+  let list = state.cards.filter(c => c.board === bd.id);
+  if (filterTag) list = list.filter(c => (c.tags || []).indexOf(filterTag) > -1);
+  if (searchQ) {
+    const q = searchQ.toLowerCase();
+    list = list.filter(c => [c.title, c.note, c.script, (c.tags || []).join(' ')].join(' ').toLowerCase().indexOf(q) > -1);
+  }
+  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  $('#cardList').innerHTML = list.map(cardHTML).join('');
+  $('#cardEmpty').hidden = list.length > 0;
+  renderBoardTabs();
+  renderTagFilter();
+}
+
+function openPlayer(cardEl) {
+  const id = cardEl.dataset.id;
+  const c = state.cards.find(x => x.id === id);
+  if (!c) return;
+  const slot = cardEl.querySelector('.player-slot');
+  if (slot.dataset.open === '1') { slot.innerHTML = ''; slot.dataset.open = ''; return; }
+  // 只保留一个播放器，避免手机同时加载多个
+  $$('.player-slot').forEach(s => { if (s !== slot) { s.innerHTML = ''; s.dataset.open = ''; } });
+  let inner = '';
+  if (c.type === 'video') {
+    inner = '<div class="player"><video src="' + esc(c.embed) + '" controls playsinline preload="metadata"></video></div>';
+  } else {
+    inner = '<div class="player"><iframe src="' + esc(c.embed) + '" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="no-referrer-when-downgrade" scrolling="no"></iframe>' +
+      '<div class="p-note"><span>' + esc(PLATFORM_NAME[c.platform] || '网页') + ' 内嵌播放</span><a href="' + esc(c.url || c.embed) + '" target="_blank" rel="noopener">打不开？用原站打开</a></div></div>';
+    if (c.platform === 'douyin') inner += '<div class="hint">抖音限制跨站播放时可能黑屏，此时用上面的「用原站打开」，或换 B 站同类素材。</div>';
+  }
+  slot.innerHTML = inner;
+  slot.dataset.open = '1';
+}
+
+function toggleCheck(id) {
+  const c = state.cards.find(x => x.id === id); if (!c) return;
+  const k = dateKey();
+  const i = c.checks.indexOf(k);
+  if (i > -1) { c.checks.splice(i, 1); toast('已取消今日打卡'); }
+  else { c.checks.push(k); toast('打卡成功 · 今日又多了一点'); }
+  save(); renderCards(); if (currentView === 'today') renderToday();
+}
+
+/* ============ 6. 弹层 ============ */
+function openSheet(id) {
+  $$('.sheet').forEach(s => s.classList.remove('show'));
+  $('#backdrop').classList.add('show');
+  $('#' + id).classList.add('show');
+  document.documentElement.style.overflow = 'hidden';
+}
+function closeSheets() {
+  $$('.sheet').forEach(s => s.classList.remove('show'));
+  $('#backdrop').classList.remove('show');
+  document.documentElement.style.overflow = '';
+}
+function showActions(title, actions) {
+  $('#genericTitle').textContent = title;
+  $('#genericActions').innerHTML = '';
+  actions.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'btn' + (a.danger ? ' danger' : '');
+    b.innerHTML = '<span>' + esc(a.label) + '</span>' + (a.sub ? '<span class="sub">' + esc(a.sub) + '</span>' : '');
+    b.onclick = () => { closeSheets(); setTimeout(a.fn, 120); };
+    $('#genericActions').appendChild(b);
+  });
+  openSheet('sheetGeneric');
+}
+
+/* ============ 7. 卡片表单 ============ */
+let editingId = null;
+let formBoard = 'speaking';
+let formPreset = '';
+
+function renderFormChips() {
+  $('#fBoards').innerHTML = BOARDS.map(b => '<button class="chip' + (b.id === formBoard ? ' active' : '') + '" data-fb="' + b.id + '">' + esc(b.short) + '</button>').join('');
+  const bd = boardById(formBoard);
+  $('#fPresets').innerHTML = bd.presets.map(p => '<button class="chip' + (formPreset === p ? ' active' : '') + '" data-fp="' + esc(p) + '">' + esc(p) + '</button>').join('');
+}
+function openCardForm(card) {
+  editingId = card ? card.id : null;
+  formBoard = card ? card.board : state.ui.board;
+  formPreset = card ? (card.preset || '') : '';
+  $('#cardSheetTitle').textContent = card ? '编辑素材' : '添加素材';
+  $('#fTitle').value = card ? card.title || '' : '';
+  $('#fUrl').value = card ? card.url || '' : '';
+  $('#fEmbed').value = card ? card.embed || '' : '';
+  $('#fTags').value = card ? (card.tags || []).filter(t => t !== (card.preset || '')).join(', ') : '';
+  $('#fNote').value = card ? card.note || '' : '';
+  $('#fScript').value = card ? card.script || '' : '';
+  $('#urlHint').textContent = '';
+  renderFormChips();
+  openSheet('sheetCard');
+  updateUrlHint();
+}
+function updateUrlHint() {
+  const raw = $('#fUrl').value.trim();
+  if (!raw) { $('#urlHint').textContent = '支持：bilibili.com/video/BV…、douyin.com/video/…、直链 mp4；粘贴整段分享文字也可以。'; return; }
+  const r = parseVideo(raw);
+  const name = PLATFORM_NAME[r.platform] || '网页';
+  $('#urlHint').textContent = r.type === 'none' ? '⚠ ' + r.warn : '已识别为 ' + name + (r.warn ? '：' + r.warn : '，可以内嵌播放。');
+}
+function saveCard() {
+  const title = $('#fTitle').value.trim();
+  const urlRaw = $('#fUrl').value.trim();
+  const embedManual = $('#fEmbed').value.trim();
+  if (!title && !urlRaw) { toast('至少写个标题或粘个链接'); return; }
+  const r = parseVideo(urlRaw);
+  const tags = $('#fTags').value.split(/[,，、\s]+/).map(s => s.trim()).filter(Boolean);
+  if (formPreset && tags.indexOf(formPreset) === -1) tags.unshift(formPreset);
+  const data = {
+    board: formBoard, preset: formPreset, title: title || (urlRaw ? pickUrl(urlRaw) : '未命名素材'),
+    url: urlRaw, platform: r.platform, type: r.type, embed: embedManual || r.embed,
+    tags: tags, note: $('#fNote').value.trim(), script: $('#fScript').value.trim(), updatedAt: Date.now()
+  };
+  if (embedManual && /\.(mp4|webm|m4v|mov)/i.test(embedManual)) { data.type = 'video'; data.platform = 'local'; }
+  if (editingId) {
+    const c = state.cards.find(x => x.id === editingId);
+    if (c) { Object.assign(c, data); if (!c.embed) { c.type = 'none'; } }
+    toast('已更新');
+  } else {
+    state.cards.unshift(Object.assign({ id: uid(), createdAt: Date.now(), checks: [], minutes: {} }, data));
+    toast('已加入素材库');
+  }
+  state.ui.board = formBoard;
+  save(); closeSheets(); renderCards(); renderToday();
+}
+
+/* ============ 8. 时长 ============ */
+let timeCardId = null;
+function openTime(id) {
+  const c = state.cards.find(x => x.id === id); if (!c) return;
+  timeCardId = id;
+  $('#timeCardTitle').textContent = c.title + ' · 今日已记 ' + cardTodayMin(c) + ' 分钟';
+  $('#customMin').value = '';
+  openSheet('sheetTime');
+}
+function addMinutes(min) {
+  const c = state.cards.find(x => x.id === timeCardId); if (!c) return;
+  min = Math.max(1, Math.min(600, Math.round(min)));
+  const k = dateKey();
+  c.minutes[k] = (Number(c.minutes[k]) || 0) + min;
+  if (c.checks.indexOf(k) === -1) c.checks.push(k);
+  save(); closeSheets(); renderCards(); renderToday();
+  toast('已记 ' + min + ' 分钟 · 今天累计 ' + c.minutes[k] + ' 分钟');
+}
+
+/* ============ 9. 今天：目标 / 复盘 ============ */
+const QUICK_GOALS = ['跟读 15 分钟', '记 10 个表达', '看 1 个考研视频', '摘 3 句话', '复盘 5 分钟'];
+function getGoals() {
+  const k = dateKey();
+  if (!state.goals[k]) state.goals[k] = [];
+  return state.goals[k];
+}
+function renderGoals() {
+  const gs = getGoals();
+  $('#goalList').innerHTML = gs.length ? gs.map(g =>
+    '<div class="goal' + (g.done ? ' done' : '') + '" data-gid="' + g.id + '"><div class="box" data-gact="toggle">✓</div><div class="txt" data-gact="toggle">' + esc(g.text) + '</div><button class="del" data-gact="del">×</button></div>'
+  ).join('') : '<div class="list-empty" style="padding:14px 0">今天还没有目标，加一个够得着的小事。</div>';
+}
+function renderQuickGoals() {
+  $('#goalQuick').innerHTML = QUICK_GOALS.map(t => '<button class="chip tiny" data-qgoal="' + esc(t) + '">＋ ' + esc(t) + '</button>').join('');
+}
+function renderStats() {
+  const k = dateKey();
+  const mins = state.cards.reduce((a, c) => a + cardTodayMin(c), 0);
+  const gs = getGoals();
+  $('#stMinutes').textContent = mins;
+  $('#stStreak').textContent = streakDays();
+  $('#stGoals').textContent = gs.filter(g => g.done).length + '/' + gs.length;
+  $('#stCards').textContent = state.cards.length;
+  const d = new Date();
+  $('#todayDate').innerHTML = '<b>' + (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日</b> · ' + WEEK[d.getDay()] +
+    (mins ? ' · 今天已经充了 ' + mins + ' 分钟' : ' · 今天还没开始，先来 5 分钟');
+  $('#brandSub').textContent = mins ? '今日 ' + mins + ' 分钟 · 连续 ' + streakDays() + ' 天' : '只放我自己挑的东西';
+}
+function activeDays() {
+  const s = {};
+  state.cards.forEach(c => {
+    Object.keys(c.minutes || {}).forEach(d => { if (Number(c.minutes[d]) > 0) s[d] = 1; });
+    (c.checks || []).forEach(d => { s[d] = 1; });
+  });
+  Object.keys(state.goals).forEach(d => { if ((state.goals[d] || []).some(g => g.done)) s[d] = 1; });
+  Object.keys(state.reviews).forEach(d => {
+    const r = state.reviews[d] || {};
+    if ([r.r1, r.r2, r.r3].some(x => x && x.trim())) s[d] = 1;
+  });
+  return s;
+}
+function streakDays() {
+  const s = activeDays();
+  let d = new Date();
+  if (!s[dateKey(d)]) {
+    d.setDate(d.getDate() - 1);
+    if (!s[dateKey(d)]) return 0;
+  }
+  let n = 0;
+  while (s[dateKey(d)] && n < 3650) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function renderTodayCards() {
+  const k = dateKey();
+  const list = state.cards.filter(c => cardTodayMin(c) > 0 || isCheckedToday(c));
+  $('#todayCards').innerHTML = list.length ? list.map(c =>
+    '<div class="mini-card"><span class="mt">' + esc(c.title) + '</span><span>' + (cardTodayMin(c) || 0) + ' 分</span></div>'
+  ).join('') : '<div class="mini-card"><span class="mt">今天还没有练过的素材</span></div>';
+}
+function loadReview() {
+  const r = state.reviews[dateKey()] || {};
+  $('#rv1').value = r.r1 || ''; $('#rv2').value = r.r2 || ''; $('#rv3').value = r.r3 || '';
+}
+function renderToday() {
+  renderStats(); renderGoals(); renderQuickGoals(); renderTodayCards(); loadReview();
+}
+
+/* ============ 10. 摘抄库 ============ */
+let quoteTag = '全部', quoteFavOnly = false, quoteQ = '';
+function renderQuoteTags() {
+  const tags = ['全部'];
+  state.quotes.forEach(q => { if (q.tag && tags.indexOf(q.tag) === -1) tags.push(q.tag); });
+  $('#quoteTags').innerHTML = tags.map(t => '<button class="chip tiny' + (quoteTag === t ? ' active' : '') + '" data-qtag="' + esc(t) + '">' + esc(t) + '</button>').join('');
+  $('#btnQuoteFav').classList.toggle('active', quoteFavOnly);
+}
+function renderQuotes() {
+  renderQuoteTags();
+  let list = state.quotes.slice();
+  if (quoteTag !== '全部') list = list.filter(q => q.tag === quoteTag);
+  if (quoteFavOnly) list = list.filter(q => q.fav);
+  if (quoteQ) { const s = quoteQ.toLowerCase(); list = list.filter(q => [q.en, q.zh, q.src].join(' ').toLowerCase().indexOf(s) > -1); }
+  $('#quoteList').innerHTML = list.length ? list.map(q =>
+    '<article class="qcard" data-qid="' + q.id + '">' +
+    (q.fav ? '<div class="fav-mark">★</div>' : '') +
+    (q.en ? '<div class="en">“' + esc(q.en) + '”</div>' : '') +
+    (q.zh ? '<div class="zh">' + esc(q.zh) + '</div>' : '') +
+    '<div class="src">— ' + esc(q.src || '未标出处') + (q.tag ? ' · ' + esc(q.tag) : '') + '</div>' +
+    '<div class="qtools">' +
+    '<button class="act" data-qact="fav">' + (q.fav ? '★ 已收藏' : '☆ 收藏') + '</button>' +
+    '<button class="act" data-qact="copy">复制</button>' +
+    '<button class="act" data-qact="edit">编辑</button>' +
+    '<button class="act" data-qact="del">删除</button>' +
+    '</div></article>'
+  ).join('') : '<div class="list-empty">没有匹配的摘抄。</div>';
+}
+let editingQuoteId = null;
+function openQuoteForm(q) {
+  editingQuoteId = q ? q.id : null;
+  $('#quoteSheetTitle').textContent = q ? '编辑摘抄' : '添加摘抄';
+  $('#qEn').value = q ? q.en || '' : '';
+  $('#qZh').value = q ? q.zh || '' : '';
+  $('#qSrc').value = q ? q.src || '' : '';
+  $('#qTag').value = q ? q.tag || '' : '';
+  openSheet('sheetQuote');
+}
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(t).then(() => toast('已复制'), () => fallbackCopy(t));
+  } else fallbackCopy(t);
+}
+function fallbackCopy(t) {
+  const ta = document.createElement('textarea');
+  ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast('已复制'); } catch (e) { toast('复制失败，请长按选择'); }
+  document.body.removeChild(ta);
+}
+
+/* ============ 11. 灵感库 ============ */
+const THEMES = {
+  speaking: {
+    label: '英语口语', board: 'speaking',
+    keys: ['口语', '发音', '跟读', '美剧', '纠音', '影子', '连读', '语感', '开口', '英语', '听力', '雅思', '托福', '音标', '口音', 'native', 'speaking'],
+    breakdown: [
+      '{aud}卡在哪一步：听不懂、不敢说，还是没内容可说？三条路对应完全不同的素材。',
+      '什么样的 3 分钟素材，能让人当场产生「原来我也能说」的身体记忆？',
+      '一次爽感怎么变成 4 周不断线的动作？难点不在方法，在下次什么时候开口。'
+    ],
+    angles: [
+      { t: '把「输入—模仿—输出」做成一个可演示的闭环', d: '拿一段 60 秒美剧片段：无字幕盲听 → 逐句影子跟读 3 遍 → 关掉原声自己复述 → 和第 1 遍对比。让 {aud} 亲眼看见 20 分钟内的变化，比讲十遍方法有用。', tags: ['跟读', '影子', '美剧'] },
+      { t: '用「自我介绍三件套」证明口语能换资源', d: '找 3 个真实案例（交换生面试、社团英文介绍、兼职面试），剪成 30 秒前后对照：口语直接兑换成机会，是最硬的希望。', tags: ['口语', '新生', '希望'] },
+      { t: '先拆掉「口音重所以不敢开口」这个误解', d: '收 5 段非母语但极有感染力的演讲片段（含印度、日本、北欧口音），提出标准：清楚 > 正确 > 好听。', tags: ['纠音', '口音', '发音'] },
+      { t: '每天 3 句台词，做最小可执行单元', d: '每期固定一个高频场景（点单、道歉、拒绝、寒暄、破冰），给 3 句台词 + 2 个替换词，跟读 5 分钟即可完成并打卡。', tags: ['地道', '跟读', '口语'] },
+      { t: '把「影子跟读」拍成一个动作，而不是概念', d: '同一段音频，第 1 天跟不上、第 3 天跟上 80%，用录音对比。观众信的是变化曲线，不是方法论。', tags: ['影子', '跟读'] },
+      { t: '集中攻中国人最容易错的 5 个音', d: 'th / v-w / 长短元音 / 词尾辅音 / 连读吞音，每个配 1 个明星或影视片段示范，做成一页清单。', tags: ['纠音', '发音', '连读'] },
+      { t: '口语 → 未来的三条具体路径', d: '画三条线：口语→交换/暑校→简历；口语→英文信息源→认知差；口语→面试/兼职→第一笔收入。抽象的希望要落到路径图上。', tags: ['新生', '希望', '大学'] },
+      { t: '90 天时间桶：三个阶段各一个可交付', d: '第 1 个 30 天：30 句高频表达；第 2 个 30 天：一段 2 分钟独白；第 3 个 30 天：一次真实英文对话（外教/线上语伴）。', tags: ['规划', '新生', '口语'] },
+      { t: '用同龄人样本代替大神样本', d: '找本校或同年级的进步记录，而不是「三个月口语自由」的广告。距离感越小，行动力越强。', tags: ['新生', '大学', '成长'] },
+      { t: '让「说出来」先于「说对了」', d: '设置一个只说不停的 60 秒环节，先允许语法错误；流畅度建立后再纠错，顺序反过来会永久性闭麦。', tags: ['开口', '口语'] }
+    ],
+    materials: [
+      { t: '60 秒以内的生活场景美剧片段', d: '《老友记》《摩登家庭》这类台词密度高、场景日常的片段，方便逐句拆、逐句跟。', tags: ['美剧'] },
+      { t: '母语者的慢速讲解 + 纠音对照片段', d: '优先找带口型、带舌位的讲解，一分钟讲清一个音。', tags: ['纠音'] },
+      { t: 'TED-Ed / 演讲片段（3–5 分钟）', d: '观点清晰、语速适中，适合做「听→跟→复述」的整套练习。', tags: ['演讲'] },
+      { t: '同龄人逆袭 vlog（真实记录 > 教程）', d: '带时间戳的打卡记录，比方法论更能让人相信「我也行」。', tags: ['新生', '成长'] },
+      { t: '场景化对话教学（咖啡店/机场/面试）', d: '一个场景一集，看完立刻能背下来用。', tags: ['地道', '口语'] }
+    ],
+    kw: ['英语口语', '影子跟读', '美剧片段 精听', '英语纠音 连读', '地道表达 口语', '英语自我介绍', '口语 90天 计划', '零基础 开口'],
+    quotes: [
+      { en: 'Speak clearly, if you speak at all.', zh: '若要开口，就说清楚。', src: 'Oliver Wendell Holmes' },
+      { en: 'The limits of my language mean the limits of my world.', zh: '语言的边界，就是世界的边界。', src: 'Wittgenstein' }
+    ],
+    claim: '别急着教他们坚持，先让他们在今天晚上尝到一次「我真的说出来了」的爽感。',
+    plan: ['今天：选一段 60 秒片段，盲听 2 遍，只抓关键词', '明天：逐句影子跟读，录音存证', '第 3 天：关掉原声自己复述一遍，和第 1 天对比', '第 7 天：把这段台词用在自己的自我介绍里']
+  },
+  business: {
+    label: '销售 & 商务英语', board: 'business',
+    keys: ['销售', '成交', '客户', '谈判', '外贸', '话术', '商务', '演讲', '说服', '领导力', '团队', '提案', '报价', '跟单', '异议', '邮件', 'buyer', 'BD'],
+    breakdown: [
+      '对方现在最怕什么：买错、被推销、担责任？先定这个，再定话术。',
+      '哪一句话能让 {aud} 从「听你说」变成「问你问题」？',
+      '这场沟通的成功标准是一条可观察的行为，不是一个感觉。'
+    ],
+    angles: [
+      { t: '把信任拆成可执行的三个动作', d: '专业（给出一眼可验证的细节）+ 相似（说对方的话）+ 一致（承诺过的都做到）。每个动作配一个真实对话片段。', tags: ['客户', '销售'] },
+      { t: '提问结构：现状 → 问题 → 影响 → 收益', d: '用 SPIN 顺序拍一段 3 分钟示范，让观众看到「问对问题比说对话更成交」。', tags: ['销售', '话术', '客户'] },
+      { t: '异议处理三步：接住、澄清、给证据', d: '「太贵了」不是价格问题，是价值没被看见。录一段真实异议对话的拆解。', tags: ['异议', '谈判', '话术'] },
+      { t: '报价锚定与让步节奏', d: '先给价值锚点再给价格；让步每次递减、换条件不白给。用一次谈判录音做前后对照。', tags: ['谈判', '报价'] },
+      { t: '外贸英语：一封能拿到回复的开发信', d: '主题行、第一句、一个具体证据、一个低门槛提问。四段结构，逐句标注为什么这么写。', tags: ['外贸', '邮件'] },
+      { t: '开场 30 秒：把「我要讲什么」换成「你为什么要听」', d: '演讲/提案开头三选一：一个数字、一个反常识、一个对方的原话。', tags: ['演讲', '提案'] },
+      { t: '说服力的三种证据：数据、案例、示范', d: '只讲一种显得单薄，三种叠加才会被记住。各配一个 20 秒素材。', tags: ['说服', '演讲'] },
+      { t: '领导力沟通：认可要具体，反馈要对事', d: '「你刚才那句反问很关键」比「你做得不错」有用十倍。拍两版对比。', tags: ['领导力', '团队'] },
+      { t: '把一次丢单复盘成素材', d: '客户为什么没买：没听懂、没被说服、还是没预算。三类原因对应三类话术修正。', tags: ['销售', '客户'] }
+    ],
+    materials: [
+      { t: '真实销售对话录音/情景剧拆解', d: '带字幕的成单/丢单对话，逐句标注关键动作。', tags: ['销售', '话术'] },
+      { t: '商业演讲片段（产品发布/路演）', d: '看结构：钩子、证据、行动号召。', tags: ['演讲'] },
+      { t: '外贸实操：邮件、报价单、展会沟通', d: '要模板 + 讲解，别只看结论。', tags: ['外贸'] },
+      { t: '谈判类纪录片/案例讲解', d: '关注让步节奏和条件交换。', tags: ['谈判'] },
+      { t: '职场英语情景对话（会议、汇报、1v1）', d: '直接背句式，第二天能用。', tags: ['商务', '客户'] }
+    ],
+    kw: ['销售 话术 拆解', 'SPIN 提问 销售', '异议处理 案例', '外贸 开发信 模板', '商务谈判 让步', '职场英语 会议', '演讲 开场 30秒', '领导力 沟通 反馈'],
+    quotes: [
+      { en: 'People do not buy what you do; they buy why you do it.', zh: '人们买的不是你在做什么，而是你为什么做。', src: 'Simon Sinek' },
+      { en: 'Seek first to understand, then to be understood.', zh: '先求理解别人，再求被理解。', src: 'Stephen Covey' }
+    ],
+    claim: '不是把话说得更漂亮，而是把对方的处境说得比他自己还准。',
+    plan: ['今天：写下你最近一次被拒绝的原话', '明天：把这句话拆成「情绪 + 事实 + 顾虑」三层', '第 3 天：准备一个只提问不推销的 3 分钟版本', '第 7 天：找一个人真实演练一遍，录音回听']
+  },
+  exam: {
+    label: '升学考研', board: 'exam',
+    keys: ['考研', '择校', '复试', '上岸', '备考', '专业课', '真题', '保研', '读研', '学长', '学姐', '初试', '调剂', '研究生', '英语一', '英语二', '数学'],
+    breakdown: [
+      '现在最缺的是信息（择校/真题/导师），还是执行（每天 6 小时能不能坐住）？',
+      '目标院校的真实门槛是多少分、多少名、什么背景？拿到数字，焦虑才会变成计划。',
+      '如果只剩 90 天，你会砍掉哪三件事？这个答案就是当前的优先级。'
+    ],
+    angles: [
+      { t: '先打信息差：把「择校」变成一个可算的表', d: '地区 × 专业排名 × 报录比 × 复试线 × 专业课参考书数量，五项打分，权重自己定。用真实数据填一张表。', tags: ['择校', '规划'] },
+      { t: '时间不是平均分配的：公共课/专业课/英语的黄金比例', d: '按目标院校专业课难度调整，给出 3 种典型配比（跨考/本专业/二战）。', tags: ['备考', '规划'] },
+      { t: '真题优先原则：先看真题再买书', d: '把近 5 年真题按考点打散归类，你会发现 60% 的分数来自 30% 的章节。', tags: ['真题', '专业课'] },
+      { t: '考研英语：长难句只练拆句，不背单词书', d: '每天 3 个真题长句，拆主干、标修饰、复述意思。附 5 个高频句型。', tags: ['英语一', '英语二'] },
+      { t: '复试口语模板：三段式自我介绍', d: '学术兴趣 + 本科积累（一个具体项目）+ 读研计划。每段 40 秒，背到能自然改词。', tags: ['复试', '口语'] },
+      { t: '怎么筛学长学姐经验：只看有细节的', d: '有分数、有时间表、有失败经历的才可信；只讲「坚持」的一律过滤。', tags: ['学长', '学姐', '经验'] },
+      { t: '备考节奏：基础—强化—冲刺的三段交付物', d: '基础期交「知识框架图」、强化期交「错题本」、冲刺期交「三套模拟卷」。用交付物判断有没有走完。', tags: ['备考', '节奏'] },
+      { t: '读研认知：导师、方向、产出三件事', d: '选导师看近三年论文与毕业去向；选方向看能不能落到一篇可发表的东西。提前祛魅。', tags: ['读研', '研究生'] },
+      { t: '二战 / 调剂：把情绪问题变成决策问题', d: '给三个判断条件（分数差距、专业匹配、经济承受），用清单代替内耗。', tags: ['调剂', '规划'] }
+    ],
+    materials: [
+      { t: '上岸经验分享（带分数和书单）', d: '只看有具体分数、时间表、失败教训的。', tags: ['学长', '经验'] },
+      { t: '择校数据类视频（报录比、复试线）', d: '配合官网截图核对，避免过时数据。', tags: ['择校'] },
+      { t: '考研英语长难句逐句拆解', d: '短、密、可跟练，一天 3 句。', tags: ['英语一'] },
+      { t: '复试现场/模拟面试录像', d: '看老师的追问方式，比背答案有用。', tags: ['复试'] },
+      { t: '读研日常 vlog（祛魅用）', d: '看真实的一天：组会、实验、改论文。', tags: ['读研'] }
+    ],
+    kw: ['考研 择校 方法', '考研 时间表 计划', '考研英语 长难句', '专业课 真题 分析', '复试 自我介绍 模板', '上岸 经验 分享', '报录比 查询', '读研 真实 日常'],
+    quotes: [
+      { en: 'The best time to plant a tree was twenty years ago. The second best time is now.', zh: '种树最好的时间是二十年前，其次是现在。', src: '谚语' },
+      { en: '', zh: '靡不有初，鲜克有终。', src: '《诗经·大雅》' }
+    ],
+    claim: '考研不是拼意志力，是把不确定变成一张能每天打勾的表。',
+    plan: ['今天：查清目标院校近三年复试线和报录比', '明天：把参考书按真题分值排序，砍掉最低的 20%', '第 3 天：做一份 7 天时间表，只排 3 件固定的事', '第 7 天：用真题自测一次，按分数调整计划']
+  },
+  life: {
+    label: '人生认知 & 职业成长', board: 'life',
+    keys: ['认知', '自律', '成长', '长期主义', '大学', '大一', '大二', '大三', '新生', '迷茫', '职场', '就业', '实习', '励志', '坚持', '习惯', '内耗', '焦虑', '方向', '四年', '希望'],
+    breakdown: [
+      '这是「不知道要什么」的问题，还是「知道但做不到」的问题？前者要信息，后者要环境。',
+      '如果把「希望」翻译成一个可观察的行为，它长什么样？',
+      '这件事的最小版本是什么？小到不可能失败，才算真的开始。'
+    ],
+    angles: [
+      { t: '把「四年路线图」画成一张可打的卡', d: '大一：试 3 件事 + 练 1 项表达；大二：定方向 + 做出 1 个作品；大三：实习/备考二选一；大四：兑现。每格只写一个可验证动作。', tags: ['大学', '规划', '四年'] },
+      { t: '自律不是意志力，是环境设计', d: '把手机放另一个房间、把书放在枕头上、把跟读音频设成闹钟。三个具体改造 > 一百句鸡汤。', tags: ['自律', '习惯'] },
+      { t: '长期主义要能算出来才可信', d: '每天 30 分钟 × 4 年 = 730 小时，等于一门专业的入门水平。把复利算给 {aud} 看。', tags: ['长期主义', '希望'] },
+      { t: '认知升级的本质是换信息源', d: '列出你现在每天看的 5 个信息源，替换掉最低质的 2 个。一个月后的想法会不一样。', tags: ['认知', '成长'] },
+      { t: '反内耗：把「我该怎么办」换成「下一步做什么」', d: '给一个万能三问：现在能做的、能问的人、能查的地方。焦虑在被拆小后会自动降级。', tags: ['内耗', '焦虑'] },
+      { t: '用「作品」代替「努力」作为进度条', d: '一个月的努力如果没有产出物，就不算数。每 30 天交一个能拿出手的东西。', tags: ['成长', '职场'] },
+      { t: '职业前景：把行业趋势落到一个岗位说明书', d: '找 3 份真实 JD，圈出重复出现的能力，那就是你这两年要练的东西。', tags: ['职场', '就业', '实习'] },
+      { t: '榜样样本要挑「只比你早三年」的', d: '太远的榜样只制造焦虑，近的样本才提供路径。找一个学长/前同事当参照。', tags: ['成长', '希望', '学长'] },
+      { t: '身体状态是认知的地基', d: '睡眠、光照、运动三项里先修一项。讲清「不是懒，是电量低」。', tags: ['自律', '认知'] },
+      { t: '把「希望」拆成一次可完成的小胜利', d: '让人相信未来的方式，是今天先赢一次小的。设计一个 20 分钟就能完成的胜利。', tags: ['希望', '新生', '励志'] }
+    ],
+    materials: [
+      { t: '真实成长记录（带时间跨度的）', d: '连续 100 天、一年前后对比，比金句更有说服力。', tags: ['成长'] },
+      { t: '大学生活规划类长视频（20 分钟以上）', d: '要结构清晰的，能截图做成自己的路线图。', tags: ['大学', '规划'] },
+      { t: '职场访谈 / 行业从业者自述', d: '关注「一天在做什么」而不是「有多成功」。', tags: ['职场'] },
+      { t: '励志演讲（3–8 分钟，观点单一）', d: '一个演讲只取一个观点，配自己的例子。', tags: ['励志', '演讲'] },
+      { t: '学习方法论（费曼、间隔重复、刻意练习）', d: '选能给出具体操作步骤的版本。', tags: ['习惯', '认知'] }
+    ],
+    kw: ['大学四年 规划', '大一时间 怎么过', '自律 方法 真实', '长期主义 复利', '认知升级 信息源', '实习 怎么找', '职场 前三年', '励志 演讲 中英'],
+    quotes: [
+      { en: 'Discipline equals freedom.', zh: '自律即自由。', src: 'Jocko Willink' },
+      { en: '', zh: '君子求诸己，小人求诸人。', src: '《论语·卫灵公》' }
+    ],
+    claim: '他们缺的不是道理，是一次被自己看见的、具体的小胜利。',
+    plan: ['今天：写下一个 20 分钟能完成的小胜利', '明天：把它放进固定时间段，做完打勾', '第 3 天：删掉一个最低质的信息源', '第 7 天：交出一个小作品（一段录音 / 一页笔记 / 一次对话）']
+  }
+};
+const UNIVERSAL_ANGLES = [
+  { t: '反常识开场：先说大家都不认同的那句', d: '把最常见的那句建议（「坚持就好」）放在开头推翻，再给出你的版本。前 5 秒决定有没有人继续看。', tags: ['开场'] },
+  { t: '用一个具体的人，代替一群抽象的人', d: '不要讲「很多 {aud}」，讲「上周三晚上 10 点，一个男生跟我说……」——细节建立可信度。', tags: ['故事'] },
+  { t: '做一次「错误示范 vs 正确示范」对照', d: '同一个场景演两遍，观众自己会得出结论。对照是最省力的说服。', tags: ['示范'] },
+  { t: '给一个 7 天可验证的小实验', d: '不承诺改变人生，只承诺 7 天后你会多一个数据点。低门槛才有高转化。', tags: ['行动'] },
+  { t: '把抽象概念换成身体感受', d: '不说「焦虑」，说「半夜三点盯着天花板，手机在枕头边亮了一下」。可感知的细节才会被记住。', tags: ['表达'] },
+  { t: '用一张图建立全局感', d: '四条路径、三个阶段、五个音——数字化的结构让人相信你有体系。', tags: ['结构'] },
+  { t: '结尾只留一个动作', d: '一句能立刻做的事（今晚 10 点前录 60 秒），比三条建议有效。', tags: ['行动'] },
+  { t: '把「为什么现在」讲清楚', d: '为什么这件事对 {aud} 是现在最该做的，而不是明年。时机感是希望的一部分。', tags: ['希望'] }
+];
+const UNIVERSAL_MATERIALS = [
+  { t: '30 秒以内的强钩子片段', d: '开头一句就能让人停下来，适合做引入。', tags: ['开场'] },
+  { t: '带字幕的对话/访谈片段', d: '可逐句拆解、可跟读、可做摘抄。', tags: ['对话'] },
+  { t: '真实场景实拍（非摆拍）', d: '教室、办公室、地铁上，真实环境比棚拍更有代入感。', tags: ['真实'] }
+];
+const UNIVERSAL_KW = ['普通人 变强记录', '前后对比 变化', '真实记录 一年', '方法论 拆解', '避坑 经验', '长期主义 实践'];
+const UNIVERSAL_QUOTES = [
+  { en: 'It always seems impossible until it is done.', zh: '在做成之前，一切都像是不可能的。', src: 'Nelson Mandela' },
+  { en: 'Fall seven times, stand up eight.', zh: '跌倒七次，第八次也要站起来。', src: '日本谚语' },
+  { en: '', zh: '日拱一卒，功不唐捐。', src: '胡适（常引）' },
+  { en: 'You do not rise to the level of your goals. You fall to the level of your systems.', zh: '你不会升到目标的高度，只会掉到系统的水平。', src: 'James Clear' }
+];
+
+function detectTheme(q) {
+  let best = 'life', bestScore = 0;
+  const head = Math.max(6, Math.round(q.length * 0.35)); // 句首出现的词更像主题词
+  Object.keys(THEMES).forEach(k => {
+    let s = 0;
+    THEMES[k].keys.forEach(word => {
+      let from = 0, idx;
+      while ((idx = q.indexOf(word, from)) > -1) {
+        s += word.length * (idx < head ? 1.8 : 1);
+        from = idx + word.length;
+      }
+    });
+    if (s > bestScore) { bestScore = s; best = k; }
+  });
+  return best;
+}
+function detectAudience(q) {
+  if (/大一新生|新生/.test(q)) return '大一新生';
+  if (/大一|大二/.test(q)) return '大一大二学生';
+  if (/大学生|在校生|大学/.test(q)) return '大学生';
+  if (/考研|备考|复试|读研/.test(q)) return '考研人';
+  if (/客户|甲方|买家|外贸/.test(q)) return '客户';
+  if (/下属|团队|员工|带人/.test(q)) return '团队';
+  if (/面试|求职|实习|职场|转行|打工人/.test(q)) return '职场人';
+  if (/家长|孩子/.test(q)) return '家长';
+  return '同龄人';
+}
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return Math.abs(h);
+}
+function rotate(arr, n) {
+  if (!arr.length) return arr;
+  const k = n % arr.length;
+  return arr.slice(k).concat(arr.slice(0, k));
+}
+function chooseByScore(items, q, n, seed) {
+  const scored = items.map((it, i) => ({ it, i, s: (it.tags || []).reduce((a, t) => a + (q.indexOf(t) > -1 ? 2 : 0), 0) }));
+  scored.sort((a, b) => b.s - a.s || a.i - b.i);
+  const pool = scored.slice(0, Math.min(scored.length, n + 3)).map(x => x.it);
+  return rotate(pool, seed).slice(0, Math.min(n, pool.length));
+}
+function makeKeywords(theme, q, aud, seed) {
+  const t = THEMES[theme];
+  const shapes = ['方法', '合集', '真实记录', '拆解', '避坑', '复盘'];
+  const wordOf = { speaking: '英语口语', business: '销售话术', exam: '考研', life: '成长' };
+  const hasQualifier = c => /天|计划|模板|方法|合集|攻略|清单/.test(c);
+  const out = [];
+  const push = s => { s = s.replace(/\s+/g, ' ').trim(); if (s && out.indexOf(s) === -1 && out.length < 10) out.push(s); };
+  rotate(t.kw, seed).forEach((c, i) => {
+    if (out.length < 6) {
+      push(c);
+      if (i < 2 && !hasQualifier(c)) push(c + ' ' + shapes[(seed + i) % shapes.length]);
+    }
+  });
+  push(aud + ' ' + wordOf[t.board]);
+  push(aud + ' 希望');
+  rotate(UNIVERSAL_KW, seed).slice(0, 1).forEach(push);
+  return out.slice(0, 9);
+}
+function generate(q, focus, seed) {
+  const theme = (focus && focus !== 'auto' && THEMES[focus]) ? focus : detectTheme(q);
+  const t = THEMES[theme];
+  const aud = detectAudience(q);
+  const fill = s => String(s).replace(/\{aud\}/g, aud);
+  const s1 = seed, s2 = seed + 7, s3 = seed + 13;
+  const angles = chooseByScore(t.angles, q, 4, s1).concat(chooseByScore(UNIVERSAL_ANGLES, q, 3, s2)).map(a => ({ t: fill(a.t), d: fill(a.d), tags: a.tags || [], board: t.board }));
+  const materials = chooseByScore(t.materials, q, 3, s2).concat(chooseByScore(UNIVERSAL_MATERIALS, q, 2, s3)).map(a => ({ t: fill(a.t), d: fill(a.d), tags: a.tags || [], board: t.board }));
+  const quotes = chooseByScore(t.quotes.concat(UNIVERSAL_QUOTES), q, 4, s3);
+  return {
+    theme, themeLabel: t.label, aud, q, seed,
+    breakdown: rotate(t.breakdown, s1).slice(0, 3).map(fill),
+    angles: angles,
+    materials: materials,
+    keywords: makeKeywords(theme, q, aud, s1),
+    quotes: quotes,
+    claim: fill(t.claim),
+    plan: t.plan.slice()
+  };
+}
+
+let lastIdea = null;
+function renderIdea(res) {
+  lastIdea = res;
+  const boardName = boardById(res.theme).name;
+  let h = '';
+  h += '<div class="panel" style="padding:12px 14px"><div style="font-size:13px;color:var(--ink2);line-height:1.6">识别：<b>' + esc(res.themeLabel) + '</b> · 受众 <b>' + esc(res.aud) + '</b> · 对应板块 <b>' + esc(boardName) + '</b></div></div>';
+
+  h += '<div class="idea-section"><h3>问题拆解</h3>';
+  res.breakdown.forEach((x, i) => {
+    h += '<div class="idea-item"><div class="it">' + (i + 1) + '. ' + esc(x) + '</div></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="idea-section"><h3>落地角度</h3>';
+  res.angles.forEach(a => {
+    h += '<div class="idea-item"><div class="it">' + esc(a.t) + '</div><div class="id">' + esc(a.d) + '</div>' +
+      '<div class="itools"><button class="chip tiny" data-angle="1" data-t="' + esc(a.t) + '" data-d="' + esc(a.d) + '" data-b="' + a.board + '">＋ 存为素材卡</button></div></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="idea-section"><h3>素材方向（该去找什么）</h3>';
+  res.materials.forEach(a => {
+    h += '<div class="idea-item"><div class="it">' + esc(a.t) + '</div><div class="id">' + esc(a.d) + '</div>' +
+      '<div class="itools"><button class="chip tiny" data-angle="1" data-t="' + esc(a.t) + '" data-d="' + esc(a.d) + '" data-b="' + a.board + '">＋ 存为素材卡</button></div></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="idea-section"><h3>可收藏的视频关键词</h3><div class="kw-list">';
+  res.keywords.forEach(k => { h += '<button class="kw" data-kw="' + esc(k) + '">' + esc(k) + '</button>'; });
+  h += '</div><div class="hint">点一个关键词：可复制去搜，也可直接存成「待搜集」素材卡。</div></div>';
+
+  h += '<div class="idea-section"><h3>一句话主张</h3><div class="claim"><b>核心句：</b>' + esc(res.claim) + '</div></div>';
+
+  h += '<div class="idea-section"><h3>短句（可收进摘抄库）</h3>';
+  res.quotes.forEach(x => {
+    h += '<div class="idea-item"><div class="it" style="font-weight:500;font-style:italic">' + (x.en ? '“' + esc(x.en) + '”' : '') + '</div>' +
+      (x.zh ? '<div class="id">' + esc(x.zh) + '</div>' : '') +
+      '<div class="id" style="color:var(--ink3);font-size:12px">— ' + esc(x.src || '') + '</div>' +
+      '<div class="itools"><button class="chip tiny" data-qadd="1" data-en="' + esc(x.en || '') + '" data-zh="' + esc(x.zh || '') + '" data-src="' + esc(x.src || '') + '">＋ 收进摘抄</button></div></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="idea-section"><h3>7 天最小行动</h3>';
+  res.plan.forEach((p, i) => { h += '<div class="idea-item"><div class="it" style="font-weight:500">' + (i + 1) + '． ' + esc(p) + '</div></div>'; });
+  h += '</div>';
+
+  $('#ideaResult').innerHTML = h;
+}
+function renderIdeaFocus() {
+  const opts = [['auto', '自动识别']].concat(Object.keys(THEMES).map(k => [k, THEMES[k].label]));
+  $('#ideaFocus').innerHTML = opts.map(o => '<button class="chip' + (ideaFocus === o[0] ? ' active' : '') + '" data-focus="' + o[0] + '">' + esc(o[1]) + '</button>').join('');
+}
+let ideaFocus = 'auto', ideaSeed = 0;
+function renderIdeaHistory() {
+  const list = state.ideas.slice().sort((a, b) => b.createdAt - a.createdAt);
+  $('#ideaCount').textContent = list.length ? list.length + ' 条' : '';
+  $('#ideaHistory').innerHTML = list.length ? list.map(it =>
+    '<div class="mini-card" data-iid="' + it.id + '"><span class="mt">' + esc(it.q) + '</span><span style="font-size:11px;color:var(--ink3)">' + esc((it.createdAt ? new Date(it.createdAt) : new Date()).getMonth() + 1) + '/' + esc((it.createdAt ? new Date(it.createdAt) : new Date()).getDate()) + '</span><button class="del" data-idel="1" style="color:var(--ink3)">×</button></div>'
+  ).join('') : '<div class="mini-card"><span class="mt">还没有收藏的灵感</span></div>';
+}
+
+/* ============ 12. 设置 / 备份 ============ */
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.theme === 'night' ? 'night' : 'light');
+  $('#themeState').textContent = state.theme === 'night' ? '开' : '关';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', state.theme === 'night' ? '#15171A' : '#F6F4EE');
+}
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  const d = new Date();
+  a.href = URL.createObjectURL(blob);
+  a.download = '认知充电站-备份-' + dateKey(d) + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  toast('备份已导出');
+}
+
+/* ============ 13. 事件绑定 ============ */
+function bind() {
+  $('#tabbar').addEventListener('click', e => {
+    const t = e.target.closest('.tab'); if (!t) return;
+    setView(t.dataset.view);
+  });
+  window.addEventListener('scroll', () => {
+    $('#topbar').classList.toggle('scrolled', window.scrollY > 4);
+  }, { passive: true });
+
+  $('#boardTabs').addEventListener('click', e => {
+    const c = e.target.closest('.board-chip'); if (!c) return;
+    state.ui.board = c.dataset.board; filterTag = ''; save(); renderCards();
+  });
+  $('#tagFilter').addEventListener('click', e => {
+    const c = e.target.closest('[data-tag]'); if (!c) return;
+    filterTag = c.dataset.tag; renderCards();
+  });
+  $('#cardSearch').addEventListener('input', e => { searchQ = e.target.value.trim(); renderCards(); });
+
+  $('#cardList').addEventListener('click', e => {
+    const cardEl = e.target.closest('.card'); if (!cardEl) return;
+    const id = cardEl.dataset.id;
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    const act = btn.dataset.act;
+    if (act === 'expand') {
+      const notes = cardEl.querySelectorAll('.notes');
+      const open = notes[0] && notes[0].classList.contains('clamp');
+      notes.forEach(n => n.classList.toggle('clamp', !open));
+      btn.textContent = open ? '收起' : '展开全部';
+      return;
+    }
+    if (act === 'play') openPlayer(cardEl);
+    if (act === 'check') toggleCheck(id);
+    if (act === 'time') openTime(id);
+    if (act === 'needurl') {
+      const c = state.cards.find(x => x.id === id);
+      openCardForm(c);
+    }
+    if (act === 'more') {
+      const c = state.cards.find(x => x.id === id); if (!c) return;
+      showActions(c.title || '操作', [
+        { label: '编辑素材', sub: '改标题 / 链接 / 备注', fn: () => openCardForm(c) },
+        { label: '复制链接', sub: c.url || '无链接', fn: () => copyText(c.url || '') },
+        { label: '移到其他板块', sub: '换一个专区', fn: () => moveCard(c) },
+        { label: '删除素材', sub: '不可恢复', danger: true, fn: () => { state.cards = state.cards.filter(x => x.id !== id); save(); renderCards(); renderToday(); toast('已删除'); } }
+      ]);
+    }
+  });
+
+  $('#btnAddCard').addEventListener('click', () => openCardForm(null));
+  $('#btnFillDemo').addEventListener('click', () => {
+    $('#fTitle').value = '示例：老友记 S01E01 咖啡店开场';
+    $('#fUrl').value = 'https://www.bilibili.com/video/BV1GJ411x7h7';
+    $('#fTags').value = '跟读, 日常口语';
+    updateUrlHint();
+  });
+  $('#btnPaste').addEventListener('click', async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      if (t) { $('#fUrl').value = t; updateUrlHint(); toast('已粘贴'); }
+    } catch (e) { toast('浏览器不允许读取剪贴板，请手动粘贴'); }
+  });
+  $('#fUrl').addEventListener('input', updateUrlHint);
+  $('#fBoards').addEventListener('click', e => {
+    const c = e.target.closest('[data-fb]'); if (!c) return;
+    formBoard = c.dataset.fb; formPreset = ''; renderFormChips();
+  });
+  $('#fPresets').addEventListener('click', e => {
+    const c = e.target.closest('[data-fp]'); if (!c) return;
+    formPreset = formPreset === c.dataset.fp ? '' : c.dataset.fp; renderFormChips();
+  });
+  $('#btnSaveCard').addEventListener('click', saveCard);
+  $('#btnCancelCard').addEventListener('click', closeSheets);
+
+  $('#sheetTime').addEventListener('click', e => {
+    const b = e.target.closest('[data-min]');
+    if (b) { addMinutes(Number(b.dataset.min)); return; }
+    if (e.target.closest('#btnCustomMin')) {
+      const v = Number($('#customMin').value);
+      if (!v || v <= 0) { toast('输入一个分钟数'); return; }
+      addMinutes(v);
+    }
+  });
+
+  $('#backdrop').addEventListener('click', closeSheets);
+  $$('[data-close]').forEach(b => b.addEventListener('click', closeSheets));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheets(); });
+
+  // 今天
+  $('#goalList').addEventListener('click', e => {
+    const row = e.target.closest('.goal'); if (!row) return;
+    const gs = getGoals();
+    const g = gs.find(x => x.id === row.dataset.gid); if (!g) return;
+    const act = (e.target.closest('[data-gact]') || {}).dataset;
+    if (act && act.gact === 'del') { state.goals[dateKey()] = gs.filter(x => x.id !== g.id); }
+    else { g.done = !g.done; }
+    save(); renderToday();
+  });
+  const addGoal = text => {
+    text = (text || '').trim(); if (!text) return;
+    if (getGoals().some(g => g.text === text)) { toast('这个目标已经加过了'); return; }
+    getGoals().push({ id: uid(), text: text, done: false });
+    save(); renderToday(); toast('已添加目标');
+  };
+  $('#btnAddGoal').addEventListener('click', () => { addGoal($('#goalInput').value); $('#goalInput').value = ''; });
+  $('#goalInput').addEventListener('keydown', e => { if (e.key === 'Enter') { addGoal($('#goalInput').value); $('#goalInput').value = ''; } });
+  $('#goalQuick').addEventListener('click', e => {
+    const b = e.target.closest('[data-qgoal]'); if (!b) return; addGoal(b.dataset.qgoal);
+  });
+  ['rv1', 'rv2', 'rv3'].forEach((id, i) => {
+    $('#' + id).addEventListener('input', e => {
+      const k = dateKey();
+      if (!state.reviews[k]) state.reviews[k] = { r1: '', r2: '', r3: '' };
+      state.reviews[k]['r' + (i + 1)] = e.target.value;
+      const now = new Date();
+      $('#rvHint').textContent = '已自动保存 · ' + now.getHours() + ':' + pad2(now.getMinutes());
+    });
+    $('#' + id).addEventListener('blur', save);
+  });
+
+  // 摘抄
+  $('#quoteTags').addEventListener('click', e => {
+    const c = e.target.closest('[data-qtag]'); if (!c) return;
+    quoteTag = c.dataset.qtag; renderQuotes();
+  });
+  $('#btnQuoteFav').addEventListener('click', () => { quoteFavOnly = !quoteFavOnly; renderQuotes(); });
+  $('#quoteSearch').addEventListener('input', e => { quoteQ = e.target.value.trim(); renderQuotes(); });
+  $('#btnAddQuote').addEventListener('click', () => openQuoteForm(null));
+  $('#quoteList').addEventListener('click', e => {
+    const card = e.target.closest('.qcard'); if (!card) return;
+    const q = state.quotes.find(x => x.id === card.dataset.qid); if (!q) return;
+    const act = (e.target.closest('[data-qact]') || {}).dataset;
+    if (!act) return;
+    if (act.qact === 'fav') { q.fav = !q.fav; save(); renderQuotes(); }
+    if (act.qact === 'copy') copyText((q.en ? q.en + '\n' : '') + (q.zh || '') + (q.src ? '\n— ' + q.src : ''));
+    if (act.qact === 'edit') openQuoteForm(q);
+    if (act.qact === 'del') { state.quotes = state.quotes.filter(x => x.id !== q.id); save(); renderQuotes(); toast('已删除'); }
+  });
+  $('#btnSaveQuote').addEventListener('click', () => {
+    const en = $('#qEn').value.trim(), zh = $('#qZh').value.trim(), src = $('#qSrc').value.trim(), tag = $('#qTag').value.trim();
+    if (!en && !zh) { toast('至少写一句'); return; }
+    if (editingQuoteId) {
+      const q = state.quotes.find(x => x.id === editingQuoteId);
+      if (q) Object.assign(q, { en: en, zh: zh, src: src, tag: tag });
+      toast('已更新');
+    } else {
+      state.quotes.unshift({ id: uid(), en: en, zh: zh, src: src, tag: tag || '励志', fav: false });
+      toast('已加入摘抄库');
+    }
+    save(); closeSheets(); renderQuotes();
+  });
+
+  // 灵感
+  $('#ideaFocus').addEventListener('click', e => {
+    const c = e.target.closest('[data-focus]'); if (!c) return;
+    ideaFocus = c.dataset.focus; renderIdeaFocus();
+  });
+  const doGen = (next) => {
+    const q = $('#ideaInput').value.trim();
+    if (!q) { toast('先写一个核心问题'); $('#ideaInput').focus(); return; }
+    if (next) ideaSeed = (lastIdea ? lastIdea.seed : hashSeed(q)) + 1;
+    else ideaSeed = hashSeed(q);
+    const res = generate(q, ideaFocus, ideaSeed);
+    renderIdea(res);
+    if (next) $('#ideaResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  $('#btnGen').addEventListener('click', () => doGen(false));
+  $('#btnGenMore').addEventListener('click', () => doGen(true));
+  $('#btnIdeaSave').addEventListener('click', () => {
+    if (!lastIdea) { toast('先生成一次灵感'); return; }
+    state.ideas.unshift({ id: uid(), q: lastIdea.q, focus: lastIdea.theme, seed: lastIdea.seed, createdAt: Date.now() });
+    save(); renderIdeaHistory(); toast('已收藏这条灵感');
+  });
+  $('#ideaResult').addEventListener('click', e => {
+    const a = e.target.closest('[data-angle]');
+    if (a) {
+      state.cards.unshift({
+        id: uid(), createdAt: Date.now(), board: a.dataset.b, preset: '', title: a.dataset.t,
+        url: '', platform: 'none', type: 'none', embed: '', tags: ['待搜集'], note: a.dataset.d,
+        script: lastIdea ? '来自灵感：' + lastIdea.q : '', checks: [], minutes: {}
+      });
+      save(); renderCards(); toast('已存为「待搜集」素材卡');
+      return;
+    }
+    const qa = e.target.closest('[data-qadd]');
+    if (qa) {
+      state.quotes.unshift({ id: uid(), en: qa.dataset.en, zh: qa.dataset.zh, src: qa.dataset.src, tag: THEMES[lastIdea ? lastIdea.theme : 'life'].label.slice(0, 2), fav: false });
+      save(); toast('已收进摘抄库');
+      return;
+    }
+    const kw = e.target.closest('[data-kw]');
+    if (kw) {
+      const k = kw.dataset.kw;
+      showActions('关键词：' + k, [
+        { label: '复制关键词', sub: '去 B 站 / 抖音搜', fn: () => copyText(k) },
+        { label: '存为待搜集素材卡', sub: '搜索到再补链接', fn: () => {
+          state.cards.unshift({ id: uid(), createdAt: Date.now(), board: (lastIdea ? lastIdea.theme : 'life'), preset: '', title: k, url: '', platform: 'none', type: 'none', embed: '', tags: ['待搜集'], note: lastIdea ? '灵感：' + lastIdea.q : '', script: '', checks: [], minutes: {} });
+          save(); renderCards(); toast('已加入素材库');
+        } }
+      ]);
+    }
+  });
+  $('#ideaHistory').addEventListener('click', e => {
+    const del = e.target.closest('[data-idel]');
+    const row = e.target.closest('[data-iid]');
+    if (!row) return;
+    const it = state.ideas.find(x => x.id === row.dataset.iid); if (!it) return;
+    if (del) { state.ideas = state.ideas.filter(x => x.id !== it.id); save(); renderIdeaHistory(); return; }
+    $('#ideaInput').value = it.q; ideaFocus = it.focus || 'auto'; renderIdeaFocus();
+    renderIdea(generate(it.q, it.focus || 'auto', it.seed || hashSeed(it.q)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // 设置
+  $('#btnSettings').addEventListener('click', () => openSheet('sheetSettings'));
+  $('#btnTheme').addEventListener('click', () => { state.theme = state.theme === 'night' ? 'light' : 'night'; save(); applyTheme(); });
+  $('#btnExport').addEventListener('click', exportData);
+  $('#btnImport').addEventListener('click', () => $('#fileImport').click());
+  $('#fileImport').addEventListener('change', e => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    const fr = new FileReader();
+    fr.onload = () => {
+      try {
+        const d = JSON.parse(fr.result);
+        if (!d || !Array.isArray(d.cards)) throw new Error('格式不对');
+        state = Object.assign(blankState(), d);
+        state.cards.forEach(c => { c.tags = c.tags || []; c.checks = c.checks || []; c.minutes = c.minutes || {}; });
+        save(); applyTheme(); renderCards(); renderToday(); renderQuotes(); renderIdeaHistory(); closeSheets();
+        toast('已恢复 ' + state.cards.length + ' 条素材');
+      } catch (err) { toast('导入失败：文件格式不正确'); }
+    };
+    fr.readAsText(f);
+    e.target.value = '';
+  });
+  $('#btnClear').addEventListener('click', () => {
+    if (!confirm('确定清空全部素材、打卡和复盘？建议先导出备份。')) return;
+    state = blankState(); save(); applyTheme(); renderCards(); renderToday(); renderQuotes(); renderIdeaHistory(); closeSheets();
+    toast('已清空');
+  });
+}
+
+function moveCard(c) {
+  const acts = BOARDS.filter(b => b.id !== c.board).map(b => ({
+    label: '移到「' + b.name + '」', sub: b.sub.slice(0, 14), fn: () => { c.board = b.id; save(); renderCards(); toast('已移动'); }
+  }));
+  showActions('移到哪个板块', acts);
+}
+
+/* ============ 14. 初始化 ============ */
+function init() {
+  load();
+  applyTheme();
+  renderIdeaFocus();
+  renderCards();
+  renderToday();
+  renderQuotes();
+  renderIdeaHistory();
+  bind();
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+  if (!state.cards.length) {
+    setTimeout(() => toast('点右下角「＋ 添加素材」开始'), 900);
+  }
+}
+init();
+
+</script>
+</body>
+</html>
